@@ -50,5 +50,27 @@ class Usuario:
 
 class Cine:
 
-    def __init__(self) -> None:
-        pass
+    def __init__(self):
+        self.peliculas: dict[str: Pelicula] = {}
+        self.salas: dict[int: Sala] = {}
+        self.usuarios: dict[int: Usuario] = {}
+
+    def leer_peliculas(self):
+        datos_uno = []
+        datos_finales = []
+        with open("peliculas.txt") as file:
+            for lineas in file:
+                datos_uno.append(lineas.strip("\n"))
+            for lineas in file:
+                datos_finales.append(lineas.split(","))
+            for datos in datos_finales:
+                pelicula = Pelicula(datos[0], datos[1], datos[2], datos[3], datos[4], datos[5], datos[6])
+                self.peliculas[pelicula.titulo] = pelicula
+        return
+
+def programa():
+    cine_uno = Cine()
+    cine_uno.leer_peliculas()
+    print(cine_uno.peliculas)
+    return
+programa()
