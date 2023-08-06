@@ -61,7 +61,7 @@ class Cine:
         with open("peliculas.txt") as file:
             for lineas in file:
                 datos_uno.append(lineas.strip("\n"))
-            for lineas in file:
+            for lineas in datos_uno:
                 datos_finales.append(lineas.split(","))
             for datos in datos_finales:
                 pelicula = Pelicula(datos[0], datos[1], datos[2], datos[3], datos[4], datos[5], datos[6])
@@ -71,6 +71,5 @@ class Cine:
 def programa():
     cine_uno = Cine()
     cine_uno.leer_peliculas()
-    print(cine_uno.peliculas)
     return
 programa()
