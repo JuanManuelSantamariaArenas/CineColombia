@@ -23,7 +23,7 @@ class Sala:
         self.pelicula = pelicula
 
     def __str__(self) -> str:
-        return
+        return f"Numero de sala: {self.num_sala}, Numero de asientos: {self.num_asientos}, Pelicula: {self.pelicula}"
 
 class Ticket:
 
@@ -35,7 +35,7 @@ class Ticket:
         self.pelicula = pelicula
 
     def __str__(self) -> str:
-        pass
+        return f"Fecha: {self.fecha} \n Numero de sala: {self.num_sala} \n Asiento: {self.asiento} \n Dni del usuario: {self.dni_usuario} \n Pelicula: {self.pelicula}"
 
 class Usuario:
 
