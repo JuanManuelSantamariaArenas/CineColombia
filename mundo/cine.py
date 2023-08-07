@@ -53,7 +53,8 @@ class Sala:
         for asiento, ocupante in self.codigos_asientos.items():
             if ocupante == "":
                 asientos_disponibles.append(asiento)
-        print(asientos_disponibles)
+        # print(asientos_disponibles)
+        return asientos_disponibles
 
 class Ticket:
 
@@ -136,15 +137,13 @@ class Cine:
             print("DEBES DE INGRESAR LOS DATOS SOLICITADOS")
         return
     
-    def asignar_asientos(self, dni: int, pelicula:str):
-        sala = self.buscar_pelicula(pelicula)
-        sala = sala[1]
+    def asignar_asiento(self, dni: int, pelicula:str, sala: Sala):
         asinetos_disponibles = sala.asientos_disponibles()
         asiento = random.choice(asinetos_disponibles)
         return asiento
     
     def deshabilitar_asiento(self, sala: Sala, asiento: str, dni):
-        for asiento_actual in sala.codigos_asientos.key():
+        for asiento_actual in sala.codigos_asientos.keys():
             if asiento_actual == asiento:
                 sala.codigos_asientos[asiento_actual] = dni
         return
@@ -153,7 +152,7 @@ class Cine:
         fecha = datetime.date.today()
         sala = self.buscar_pelicula(pelicula)
         sala = sala[1]
-        asiento = self.asignar_asiento()
+        asiento = self.asignar_asiento(dni, pelicula, sala)
         num_ticket = asiento + str(dni)
         datos_ticket = [num_ticket, fecha, sala.num_sala, asiento, dni, pelicula]
         usuario = self.buscar_usuario(dni)
@@ -177,6 +176,6 @@ def programa():
     cine_uno.salas[sala_dos.num_sala] = sala_dos
     cine_uno.salas[sala_tres.num_sala] = sala_tres
     print("="*20)
-    cine_uno.reservar_ticket(3310, "F003")
+    cine_uno.reservar_ticket(3310, "F001")
     return
 programa()
