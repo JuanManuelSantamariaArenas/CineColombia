@@ -23,7 +23,7 @@ class Sala:
         self.num_sala = num_sala
         self.num_asientos = num_asientos
         self.asientos: list = []
-        self.codigos_asientos: dict[str:bool] = {} # Value: disponible
+        self.codigos_asientos: dict[str:int] = {} # Value: dni usuario
         self.pelicula = pelicula
 
     def __str__(self) -> str:
@@ -33,6 +33,7 @@ class Sala:
         if self.num_asientos % 10 == 0 and self.num_asientos >=100:
             alfabeto = list(string.ascii_uppercase)
             alfabeto = alfabeto[:-16]
+            alfabeto.reverse()
             num_filas = len(alfabeto)
             num_asientos_por_fila = self.num_asientos // num_filas # num de columnas
             for filas in range(0, num_filas):
@@ -41,16 +42,18 @@ class Sala:
             for letra in alfabeto:
                 for numero in range(1, num_asientos_por_fila + 1):
                     codigo_asiento =  letra + str(numero)
-                    self.codigos_asientos[codigo_asiento] = True
+                    self.codigos_asientos[codigo_asiento] = ""
                     self.asientos[contador][numero - 1] = codigo_asiento
-                contador += 1 
-            for i in self.asientos:
-                print(i)
+                contador += 1
         else:
             print("INFO: DEBE CUMPLIR DOS CONDICIONES: # ASIENTOS >= 100  Y SER / POR 10") 
 
-    def asiento_disponible(num_asiento: int) -> bool:
-        pass
+    def asientos_disponibles(self):
+        asientos_disponibles = []
+        for asiento, ocupante in self.codigos_asientos.items():
+            if ocupante == "":
+                asientos_disponibles.append(asiento)
+        print(asientos_disponibles)
 
 class Ticket:
 
@@ -111,17 +114,19 @@ class Cine:
         for usuario in self.usuarios.values():
             if usuario.dni == dni_usuario:
                 return usuario
-        return None
+        return False
     
     def buscar_pelicula(self, nombre_pelicula):
         for pelicula in self.peliculas.values():
             if pelicula.titulo == nombre_pelicula:
-                return pelicula
-        return None
+                for sala in self.salas.values():
+                    if sala.pelicula == nombre_pelicula:
+                        return [pelicula, sala]
+        return False
     
     def resgistrar_usuario(self, dni: int, nombre: str, edad: str):
         if dni != "" and nombre != "" and edad != "":
-            if self.buscar_usuario(dni) == "":
+            if not self.buscar_usuario(dni):
                 usuario = Usuario(dni, nombre, edad)
                 self.usuarios[dni] = usuario
                 print("INFO: SE REALIZO EL REGISTRO CON EXITO")
@@ -129,15 +134,49 @@ class Cine:
                 print("INFO: NO ES POSIBLE REALIZAR EL REGISTRO")
         else:
             print("DEBES DE INGRESAR LOS DATOS SOLICITADOS")
+        return
+    
+    def asignar_asientos(self, dni: int, pelicula:str):
+        sala = self.buscar_pelicula(pelicula)
+        sala = sala[1]
+        asinetos_disponibles = sala.asientos_disponibles()
+        asiento = random.choice(asinetos_disponibles)
+        return asiento
+    
+    def deshabilitar_asiento(self, sala: Sala, asiento: str, dni):
+        for asiento_actual in sala.codigos_asientos.key():
+            if asiento_actual == asiento:
+                sala.codigos_asientos[asiento_actual] = dni
+        return
 
-    def reservar_ticket():
-        pass
+    def reservar_ticket(self, dni: int, pelicula: str):
+        fecha = datetime.date.today()
+        sala = self.buscar_pelicula(pelicula)
+        sala = sala[1]
+        asiento = self.asignar_asiento()
+        num_ticket = asiento + str(dni)
+        datos_ticket = [num_ticket, fecha, sala.num_sala, asiento, dni, pelicula]
+        usuario = self.buscar_usuario(dni)
+        usuario.adquirir_ticket(datos_ticket)
+        self.deshabilitar_asiento(sala, asiento, dni)
+        return
 
 def programa():
     cine_uno = Cine()
     cine_uno.leer_peliculas()
-    # cine_uno.resgistrar_usuario(1033, "juan", 18)
-    sala_uno = Sala(1, 100, "El tic")
+    cine_uno.resgistrar_usuario(3310, "juan", 18)
+    sala_uno = Sala(1, 100, "F003")
     sala_uno.generar_asientos()
+    print("="*20)
+    sala_dos = Sala(2, 120, "F002")
+    sala_dos.generar_asientos()
+    print("="*20)
+    sala_tres = Sala(3, 150, "F001")
+    sala_tres.generar_asientos()
+    cine_uno.salas[sala_uno.num_sala] = sala_uno
+    cine_uno.salas[sala_dos.num_sala] = sala_dos
+    cine_uno.salas[sala_tres.num_sala] = sala_tres
+    print("="*20)
+    cine_uno.reservar_ticket(3310, "F003")
     return
 programa()
