@@ -22,17 +22,35 @@ class Sala:
     def __init__(self, num_sala: int, num_asientos: int, pelicula: Pelicula):
         self.num_sala = num_sala
         self.num_asientos = num_asientos
-        self.asientos: dict[str:bool] = {} # Value: disponible
+        self.asientos: list = []
+        self.codigos_asientos: dict[str:bool] = {} # Value: disponible
         self.pelicula = pelicula
 
     def __str__(self) -> str:
         return f"Numero de sala: {self.num_sala}, Numero de asientos: {self.num_asientos}, Pelicula: {self.pelicula}"
 
-    def generar_asientos(self, num_asientos: int):
-        if num_asientos >=100:
+    def generar_asientos(self):
+        if self.num_asientos % 10 == 0 and self.num_asientos >=100:
             alfabeto = list(string.ascii_uppercase)
-            alfabeto = 0
-        
+            alfabeto = alfabeto[:-16]
+            num_filas = len(alfabeto)
+            num_asientos_por_fila = self.num_asientos // num_filas # num de columnas
+            for filas in range(0, num_filas):
+                self.asientos.append([0]*num_asientos_por_fila)
+            for i in range(0, num_filas):
+                for j in range(0, num_asientos_por_fila):
+                    self.asientos[i][j] = ""
+            contador = 0
+            for letra in alfabeto:
+                for numero in range(1, num_asientos_por_fila + 1):
+                    codigo_asiento =  letra + str(numero)
+                    self.codigos_asientos[codigo_asiento] = True
+                    self.asientos[contador][numero - 1] = codigo_asiento
+                contador += 1 
+            for i in self.asientos:
+                print(i)
+        else:
+            print("INFO: DEBE CUMPLIR DOS CONDICIONES: # ASIENTOS >= 100  Y SER / POR 10") 
 
     def asiento_disponible(num_asiento: int) -> bool:
         pass
@@ -121,6 +139,8 @@ class Cine:
 def programa():
     cine_uno = Cine()
     cine_uno.leer_peliculas()
-    cine_uno.resgistrar_usuario(1033, "juan", 18)
+    # cine_uno.resgistrar_usuario(1033, "juan", 18)
+    sala_uno = Sala(1, 100, "El tic")
+    sala_uno.generar_asientos()
     return
 programa()
