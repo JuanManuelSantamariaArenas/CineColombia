@@ -1,5 +1,6 @@
 import random
 import datetime
+import string
 
 
 class Pelicula:
@@ -21,10 +22,17 @@ class Sala:
     def __init__(self, num_sala: int, num_asientos: int, pelicula: Pelicula):
         self.num_sala = num_sala
         self.num_asientos = num_asientos
+        self.asientos: dict[str:bool] = {} # Value: disponible
         self.pelicula = pelicula
 
     def __str__(self) -> str:
         return f"Numero de sala: {self.num_sala}, Numero de asientos: {self.num_asientos}, Pelicula: {self.pelicula}"
+
+    def generar_asientos(self, num_asientos: int):
+        if num_asientos >=100:
+            alfabeto = list(string.ascii_uppercase)
+            alfabeto = 0
+        
 
     def asiento_disponible(num_asiento: int) -> bool:
         pass
@@ -97,7 +105,15 @@ class Cine:
         return None
     
     def resgistrar_usuario(self, dni: int, nombre: str, edad: str):
-        pass
+        if dni != "" and nombre != "" and edad != "":
+            if self.buscar_usuario(dni) == "":
+                usuario = Usuario(dni, nombre, edad)
+                self.usuarios[dni] = usuario
+                print("INFO: SE REALIZO EL REGISTRO CON EXITO")
+            else:
+                print("INFO: NO ES POSIBLE REALIZAR EL REGISTRO")
+        else:
+            print("DEBES DE INGRESAR LOS DATOS SOLICITADOS")
 
     def reservar_ticket():
         pass
@@ -105,5 +121,6 @@ class Cine:
 def programa():
     cine_uno = Cine()
     cine_uno.leer_peliculas()
+    cine_uno.resgistrar_usuario(1033, "juan", 18)
     return
 programa()
