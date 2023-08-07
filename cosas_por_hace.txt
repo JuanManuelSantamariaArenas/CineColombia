@@ -1,0 +1,18 @@
+ideas:
+
+funcion para admon:
+
+contrasseña para ingresar
+numero de asientos por salas
+numero de salas
+numero se sillas vip
+
+funcion para usuario
+
+- crear peliculas
+- darle los asientos cerca a sus acompañantes
+- cifrar el num_ticket (Por seguridad)
+- si esta el asiento ocupado al mostrar el cine que apareca en color rojo
+- conectar ui
+- generar exepciones
+- percistencia de archivos
