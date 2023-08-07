@@ -36,10 +36,7 @@ class Sala:
             num_filas = len(alfabeto)
             num_asientos_por_fila = self.num_asientos // num_filas # num de columnas
             for filas in range(0, num_filas):
-                self.asientos.append([0]*num_asientos_por_fila)
-            for i in range(0, num_filas):
-                for j in range(0, num_asientos_por_fila):
-                    self.asientos[i][j] = ""
+                self.asientos.append([" "]*num_asientos_por_fila)
             contador = 0
             for letra in alfabeto:
                 for numero in range(1, num_asientos_por_fila + 1):
