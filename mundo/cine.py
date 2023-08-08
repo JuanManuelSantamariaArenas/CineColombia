@@ -142,7 +142,7 @@ class Cine:
             log_dni = str(usuario.dni)
             log_dni = len(log_dni)
             asiento = list(usuario.tickets.keys()) 
-            asiento = random.choice(asiento)
+            asiento = asiento[0]
             columna = int(asiento[1:-log_dni])
             fila = asiento[0]
             for asiento_libre in asientos_disponibles:
@@ -198,13 +198,13 @@ def programa():
     cine_uno = Cine()
     cine_uno.leer_peliculas()
     cine_uno.resgistrar_usuario(3310, "juan", 18)
-    sala_uno = Sala(1, 100, "F001")
+    sala_uno = Sala(1, 100, "F003")
     sala_uno.generar_asientos()
     print("="*20)
     sala_dos = Sala(2, 120, "F002")
     sala_dos.generar_asientos()
     print("="*20)
-    sala_tres = Sala(3, 150, "F003")
+    sala_tres = Sala(3, 150, "F001")
     sala_tres.generar_asientos()
     cine_uno.salas[sala_uno.num_sala] = sala_uno
     cine_uno.salas[sala_dos.num_sala] = sala_dos
@@ -216,8 +216,9 @@ def programa():
     cine_uno.reservar_ticket(3310, "F001")
     cine_uno.reservar_ticket(3310, "F001")
     print(sala_tres.codigos_asientos)
-    # num_ticket = input("Ingrese num_ticket: ")
-    # dni = input("Ingrese dni: ")
-    # cine_uno.cancelar_ticket(num_ticket, dni)
+    num_ticket = input("Ingrese num_ticket: ")
+    dni = int(input("Ingrese dni: "))
+    cine_uno.cancelar_ticket(num_ticket, dni)
+    print(sala_tres.codigos_asientos)
     return
 programa()
