@@ -1,7 +1,8 @@
 import random
 import datetime
 import string
-
+from colorama import Back, Fore, init
+init()
 
 class Pelicula:
 
@@ -110,6 +111,18 @@ class Cine:
                 self.peliculas[pelicula.titulo] = pelicula
         return
     
+    def resgistrar_usuario(self, dni: int, nombre: str, edad: str):
+        if dni != "" and nombre != "" and edad != "":
+            if not self.buscar_usuario(dni):
+                usuario = Usuario(dni, nombre, edad)
+                self.usuarios[dni] = usuario
+                print("INFO: SE REALIZO EL REGISTRO CON EXITO")
+            else:
+                print("INFO: NO ES POSIBLE REALIZAR EL REGISTRO")
+        else:
+            print("DEBES DE INGRESAR LOS DATOS SOLICITADOS")
+        return
+    
     def buscar_usuario(self, dni_usuario: int):
         for usuario in self.usuarios.values():
             if usuario.dni == dni_usuario:
@@ -123,18 +136,6 @@ class Cine:
                     if sala.pelicula == nombre_pelicula:
                         return [pelicula, sala]
         return False
-    
-    def resgistrar_usuario(self, dni: int, nombre: str, edad: str):
-        if dni != "" and nombre != "" and edad != "":
-            if not self.buscar_usuario(dni):
-                usuario = Usuario(dni, nombre, edad)
-                self.usuarios[dni] = usuario
-                print("INFO: SE REALIZO EL REGISTRO CON EXITO")
-            else:
-                print("INFO: NO ES POSIBLE REALIZAR EL REGISTRO")
-        else:
-            print("DEBES DE INGRESAR LOS DATOS SOLICITADOS")
-        return
     
     def asignar_asiento(self, sala: Sala, usuario: Usuario):
         asientos_disponibles = sala.asientos_disponibles()
@@ -158,17 +159,33 @@ class Cine:
             return asiento_adquirido
 
     def habilitar_asiento(self, sala: Sala, asiento: str):
+        function = "Habilitar"
         for asiento_actual in sala.codigos_asientos.keys():
             if asiento_actual == asiento:
                 sala.codigos_asientos[asiento_actual] = ""
+                self.colorear_asiento(sala, asiento_actual, function)
         return
 
-    def deshabilitar_asiento(self, sala: Sala, asiento: str, dni):
+    def deshabilitar_asiento(self, sala: Sala, asiento: str, dni: int):
+        function = "Deshabilitar"
         for asiento_actual in sala.codigos_asientos.keys():
             if asiento_actual == asiento:
                 sala.codigos_asientos[asiento_actual] = dni
+                self.colorear_asiento(sala, asiento_actual, function)
         return
-
+    
+    def colorear_asiento(self, sala: Sala, asiento: str, hab_des: str):
+        funcion = ["Habilitar", "Deshabilitar"]
+        if funcion[0] == hab_des:
+            for fila in sala.asientos:
+                for columna in sala.asientos:
+                    if sala.asiento[fila][columna] == asiento:
+                        Back.GREEN + Fore.BLACK + asiento
+        elif funcion[1] ==  hab_des:
+            for fila in sala.asientos:
+                for columna in sala.asientos:
+                    if sala.asientos[fila][columna] == asiento:
+                        Back.RED + Fore.BLACK + asiento
 
     def reservar_ticket(self, dni: int, pelicula: str):
         usuario = self.buscar_usuario(dni)
@@ -213,15 +230,19 @@ def programa():
     cine_uno.salas[sala_dos.num_sala] = sala_dos
     cine_uno.salas[sala_tres.num_sala] = sala_tres
     print("="*20)
+    for asientos in sala_tres.asientos:
+        print(asientos)
     cine_uno.reservar_ticket(3310, "F001")
     cine_uno.reservar_ticket(3310, "F001")
     cine_uno.reservar_ticket(3310, "F001")
     cine_uno.reservar_ticket(3310, "F001")
     cine_uno.reservar_ticket(3310, "F001")
-    print(sala_tres.codigos_asientos)
-    num_ticket = input("Ingrese num_ticket: ")
+    for asientos in sala_tres.asientos:
+        print(asientos)
+    num_ticket = input("Ingrese tick: ")
     dni = int(input("Ingrese dni: "))
     cine_uno.cancelar_ticket(num_ticket, dni)
-    print(sala_tres.codigos_asientos)
+    for asientos in sala_tres.asientos:
+        print(asientos)
     return
 programa()
