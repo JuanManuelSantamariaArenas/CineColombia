@@ -149,15 +149,10 @@ class Cine:
                  if asiento_libre[0] == fila:
                     num_asiento = asiento_libre[1:]
                     num_asiento = int(num_asiento)
-                    if num_asiento == columna - 1 or num_asiento == columna + 1:
-                        asiento_adquirido = asiento_libre
-                        return asiento_adquirido
-                    elif num_asiento == columna - 2 or num_asiento == columna + 2:
-                        asiento_adquirido = asiento_libre
-                        return asiento_adquirido
-                    elif num_asiento == columna - 3 or num_asiento == columna + 3:
-                        asiento_adquirido = asiento_libre
-                        return asiento_adquirido
+                    for salto in range(0, 10):
+                        if num_asiento == columna - salto or num_asiento == columna + salto:
+                            asiento_adquirido = asiento_libre
+                            return asiento_adquirido
         else:
             asiento_adquirido = random.choice(asientos_disponibles)
             return asiento_adquirido
