@@ -53,7 +53,6 @@ class Sala:
         for asiento, ocupante in self.codigos_asientos.items():
             if ocupante == "":
                 asientos_disponibles.append(asiento)
-        # print(asientos_disponibles)
         return asientos_disponibles
 
 class Ticket:
@@ -147,20 +146,34 @@ class Cine:
             columna = int(asiento[1:-log_dni])
             fila = asiento[0]
             for asiento_libre in asientos_disponibles:
-                if asiento_libre[0] == fila:
+                 if asiento_libre[0] == fila:
                     num_asiento = asiento_libre[1:]
                     num_asiento = int(num_asiento)
                     if num_asiento == columna - 1 or num_asiento == columna + 1:
                         asiento_adquirido = asiento_libre
+                        return asiento_adquirido
+                    elif num_asiento == columna - 2 or num_asiento == columna + 2:
+                        asiento_adquirido = asiento_libre
+                        return asiento_adquirido
+                    elif num_asiento == columna - 3 or num_asiento == columna + 3:
+                        asiento_adquirido = asiento_libre
+                        return asiento_adquirido
         else:
             asiento_adquirido = random.choice(asientos_disponibles)
-        return asiento_adquirido
-    
+            return asiento_adquirido
+
+    def habilitar_asiento(self, sala: Sala, asiento: str):
+        for asiento_actual in sala.codigos_asientos.keys():
+            if asiento_actual == asiento:
+                sala.codigos_asientos[asiento_actual] = ""
+        return
+
     def deshabilitar_asiento(self, sala: Sala, asiento: str, dni):
         for asiento_actual in sala.codigos_asientos.keys():
             if asiento_actual == asiento:
                 sala.codigos_asientos[asiento_actual] = dni
         return
+
 
     def reservar_ticket(self, dni: int, pelicula: str):
         usuario = self.buscar_usuario(dni)
@@ -169,24 +182,34 @@ class Cine:
         sala = sala[1]
         asiento = self.asignar_asiento(sala, usuario)
         num_ticket = asiento + str(dni)
+        print(num_ticket)
         datos_ticket = [num_ticket, fecha, sala.num_sala, asiento, dni, pelicula]
         usuario.adquirir_ticket(datos_ticket)
         self.deshabilitar_asiento(sala, asiento, dni)
         return
     
-
+    def cancelar_ticket(self, num_ticket: str, dni):
+        usuario = self.buscar_usuario(dni)
+        tickets = usuario.tickets
+        log_dni = str(usuario.dni)
+        log_dni = len(log_dni)
+        datos_ticket = [[cod_ticket[:-log_dni], ticket] for cod_ticket, ticket in tickets.items() if cod_ticket == num_ticket]
+        sala = datos_ticket[0].num_sala
+        self.habilitar_asiento(sala, datos_ticket[0])
+        del datos_ticket[1]
+        return
 
 def programa():
     cine_uno = Cine()
     cine_uno.leer_peliculas()
     cine_uno.resgistrar_usuario(3310, "juan", 18)
-    sala_uno = Sala(1, 100, "F003")
+    sala_uno = Sala(1, 100, "F001")
     sala_uno.generar_asientos()
     print("="*20)
     sala_dos = Sala(2, 120, "F002")
     sala_dos.generar_asientos()
     print("="*20)
-    sala_tres = Sala(3, 150, "F001")
+    sala_tres = Sala(3, 150, "F003")
     sala_tres.generar_asientos()
     cine_uno.salas[sala_uno.num_sala] = sala_uno
     cine_uno.salas[sala_dos.num_sala] = sala_dos
@@ -198,5 +221,8 @@ def programa():
     cine_uno.reservar_ticket(3310, "F001")
     cine_uno.reservar_ticket(3310, "F001")
     print(sala_tres.codigos_asientos)
+    # num_ticket = input("Ingrese num_ticket: ")
+    # dni = input("Ingrese dni: ")
+    # cine_uno.cancelar_ticket(num_ticket, dni)
     return
 programa()
