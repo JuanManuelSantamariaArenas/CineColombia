@@ -189,9 +189,12 @@ class Cine:
         log_dni = str(usuario.dni)
         log_dni = len(log_dni)
         datos_ticket = [[cod_ticket[:-log_dni], ticket] for cod_ticket, ticket in tickets.items() if cod_ticket == num_ticket]
-        sala = datos_ticket[0].num_sala
-        self.habilitar_asiento(sala, datos_ticket[0])
-        del datos_ticket[1]
+        sala = datos_ticket[0][1].num_sala
+        for sala_usuario in self.salas.values():
+            if sala_usuario.num_sala == sala:
+                sala = sala_usuario
+        self.habilitar_asiento(sala, datos_ticket[0][0])
+        del datos_ticket[0][1]
         return
 
 def programa():
