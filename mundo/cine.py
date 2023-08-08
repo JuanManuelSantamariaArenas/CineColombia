@@ -149,7 +149,7 @@ class Cine:
                  if asiento_libre[0] == fila:
                     num_asiento = asiento_libre[1:]
                     num_asiento = int(num_asiento)
-                    for salto in range(0, 10):
+                    for salto in range(1, 5):
                         if num_asiento == columna - salto or num_asiento == columna + salto:
                             asiento_adquirido = asiento_libre
                             return asiento_adquirido
