@@ -34,7 +34,7 @@ class Sala:
         if self.num_asientos % 10 == 0 and self.num_asientos >=100:
             alfabeto = list(string.ascii_uppercase)
             alfabeto = alfabeto[:-16]
-            alfabeto.reverse()
+            # alfabeto.reverse()
             num_filas = len(alfabeto)
             num_asientos_por_fila = self.num_asientos // num_filas # num de columnas
             for filas in range(0, num_filas):
@@ -163,7 +163,7 @@ class Cine:
         for asiento_actual in sala.codigos_asientos.keys():
             if asiento_actual == asiento:
                 sala.codigos_asientos[asiento_actual] = ""
-                self.colorear_asiento(sala, asiento_actual, function)
+                # self.colorear_asiento(sala, asiento_actual, function)
         return
 
     def deshabilitar_asiento(self, sala: Sala, asiento: str, dni: int):
@@ -171,23 +171,21 @@ class Cine:
         for asiento_actual in sala.codigos_asientos.keys():
             if asiento_actual == asiento:
                 sala.codigos_asientos[asiento_actual] = dni
-                self.colorear_asiento(sala, asiento_actual, function)
+                # self.colorear_asiento(sala, asiento_actual, function)
         return
     
     def colorear_asiento(self, sala: Sala, asiento: str, hab_des: str):
         funcion = ["Habilitar", "Deshabilitar"]
         if funcion[0] == hab_des:
             for fila in range(0, len(sala.asientos)):
-                for columna in range(0, len(sala.asientos)):
+                for columna in range(0, len(sala.asientos[0])):
                     if sala.asientos[fila][columna] == asiento:
-                        print(Back.GREEN + Fore.BLACK + asiento)
-                        sala.asientos[fila][columna] == Back.GREEN + Fore.BLACK + asiento
+                        sala.asientos[fila][columna] == asiento
         elif funcion[1] ==  hab_des:
             for fila in range(0, len(sala.asientos)):
-                for columna in range(0, len(sala.asientos)):
+                for columna in range(0, len(sala.asientos[0])):
                     if sala.asientos[fila][columna] == asiento:
-                        print(Back.RED + Fore.BLACK + asiento)
-                        sala.asientos[fila][columna] == Back.RED + Fore.BLACK + asiento     
+                        sala.asientos[fila][columna] == asiento
         return
 
     def reservar_ticket(self, dni: int, pelicula: str):
@@ -233,19 +231,19 @@ def programa():
     cine_uno.salas[sala_dos.num_sala] = sala_dos
     cine_uno.salas[sala_tres.num_sala] = sala_tres
     print("="*20)
-    for asientos in sala_tres.asientos:
+    for asientos in sala_uno.asientos:
         print(asientos)
-    cine_uno.reservar_ticket(3310, "F001")
-    cine_uno.reservar_ticket(3310, "F001")
-    cine_uno.reservar_ticket(3310, "F001")
-    cine_uno.reservar_ticket(3310, "F001")
-    cine_uno.reservar_ticket(3310, "F001")
-    for asientos in sala_tres.asientos:
-        print(asientos)
+    cine_uno.reservar_ticket(3310, "F003")
+    cine_uno.reservar_ticket(3310, "F003")
+    cine_uno.reservar_ticket(3310, "F003")
+    cine_uno.reservar_ticket(3310, "F003")
+    cine_uno.reservar_ticket(3310, "F003")
+    """for asientos in sala_tres.asientos:
+        print(asientos)"""
     num_ticket = input("Ingrese tick: ")
     dni = int(input("Ingrese dni: "))
     cine_uno.cancelar_ticket(num_ticket, dni)
-    for asientos in sala_tres.asientos:
-        print(asientos)
+    """for asientos in sala_tres.asientos:
+        print(asientos)"""
     return
 programa()
