@@ -34,7 +34,7 @@ class Sala:
         if self.num_asientos % 10 == 0 and self.num_asientos >=100:
             alfabeto = list(string.ascii_uppercase)
             alfabeto = alfabeto[:-16]
-            # alfabeto.reverse()
+            alfabeto.reverse()
             num_filas = len(alfabeto)
             num_asientos_por_fila = self.num_asientos // num_filas # num de columnas
             for filas in range(0, num_filas):
