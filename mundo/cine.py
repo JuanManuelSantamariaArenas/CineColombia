@@ -177,15 +177,18 @@ class Cine:
     def colorear_asiento(self, sala: Sala, asiento: str, hab_des: str):
         funcion = ["Habilitar", "Deshabilitar"]
         if funcion[0] == hab_des:
-            for fila in sala.asientos:
-                for columna in sala.asientos:
-                    if sala.asiento[fila][columna] == asiento:
-                        Back.GREEN + Fore.BLACK + asiento
-        elif funcion[1] ==  hab_des:
-            for fila in sala.asientos:
-                for columna in sala.asientos:
+            for fila in range(0, len(sala.asientos)):
+                for columna in range(0, len(sala.asientos)):
                     if sala.asientos[fila][columna] == asiento:
-                        Back.RED + Fore.BLACK + asiento
+                        print(Back.GREEN + Fore.BLACK + asiento)
+                        sala.asientos[fila][columna] == Back.GREEN + Fore.BLACK + asiento
+        elif funcion[1] ==  hab_des:
+            for fila in range(0, len(sala.asientos)):
+                for columna in range(0, len(sala.asientos)):
+                    if sala.asientos[fila][columna] == asiento:
+                        print(Back.RED + Fore.BLACK + asiento)
+                        sala.asientos[fila][columna] == Back.RED + Fore.BLACK + asiento     
+        return
 
     def reservar_ticket(self, dni: int, pelicula: str):
         usuario = self.buscar_usuario(dni)
