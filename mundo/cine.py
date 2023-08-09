@@ -220,7 +220,7 @@ def programa():
     cine_uno.leer_peliculas()
     cine_uno.resgistrar_usuario(3310, "juan", 18)
     cine_uno.resgistrar_usuario(3311, "luis", 23)
-    cine_uno.resgistrar_usuario(3313, "carlos", 54)
+    cine_uno.resgistrar_usuario(3313, "carlos", 34)
     sala_uno = Sala(1, 100, "F003")
     sala_uno.generar_asientos()
     print("="*20)
