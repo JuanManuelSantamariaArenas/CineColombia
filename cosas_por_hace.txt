@@ -15,8 +15,9 @@ funcion para usuario
 - cifrar el num_ticket (Por seguridad)
 - si esta el asiento ocupado al mostrar el cine que apareca en color rojo (----UI----)
 - conectar ui
-- percistencia de archivos
-- generar exepciones:
+- percistencia de archivos 
+leer arcivo de peliculas al cargar el programa
+- generar excepciones:
 no hay asientos disponibles
 ya exite usuario
 no existe pelicula

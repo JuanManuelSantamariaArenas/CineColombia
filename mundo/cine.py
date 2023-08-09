@@ -201,7 +201,7 @@ class Cine:
         self.deshabilitar_asiento(sala, asiento, dni)
         return
     
-    def cancelar_ticket(self, num_ticket: str, dni):
+    def cancelar_ticket(self, num_ticket: str, dni: int):
         usuario = self.buscar_usuario(dni)
         tickets = usuario.tickets
         log_dni = str(usuario.dni)
