@@ -1,8 +1,7 @@
 import random
 import datetime
 import string
-from colorama import Back, Fore, init
-init()
+import pickle
 
 class Pelicula:
 
@@ -215,7 +214,29 @@ class Cine:
         del datos_ticket[0][1]
         return
 
-def programa():
+    def guardar(self):
+        with open("historial.txt", "wb") as file:
+            pickle.dump(self, file)
+    
+    def cargar(self):
+        with open("historial.txt", "rb") as file:
+            cine = pickle.load(file)
+            cine.leer_peliculas()
+            self.usuarios = cine.usuarios
+            self.salas = cine.salas
+            self.peliculas = cine.peliculas
+            sala_uno = Sala(1, 100, "F003")
+            sala_uno.generar_asientos()
+            print("="*20)
+            sala_dos = Sala(2, 120, "F002")
+            sala_dos.generar_asientos()
+            print("="*20)
+            sala_tres = Sala(3, 150, "F001")
+            sala_tres.generar_asientos()
+            self.salas[sala_uno.num_sala] = sala_uno
+            self.salas[sala_dos.num_sala] = sala_dos
+            self.salas[sala_tres.num_sala] = sala_tres
+"""def programa():
     cine_uno = Cine()
     cine_uno.leer_peliculas()
     cine_uno.resgistrar_usuario(3310, "juan", 18)
@@ -245,4 +266,4 @@ def programa():
     cine_uno.cancelar_ticket(num_ticket, dni)
     print(sala_uno.codigos_asientos)
     return
-programa()
+programa()"""

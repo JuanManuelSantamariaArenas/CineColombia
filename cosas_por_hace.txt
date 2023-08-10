@@ -5,11 +5,14 @@ funcion para admon:
 contraseña para ingresar
 numero de asientos por salas
 numero de salas
+eliminar sala
+asignar un pelicula a una sala
 numero se sillas vip
 
 funcion para usuario
 
 - asientos VIP
+- poner como atrinuto de la clase pelicula hora
 - crear peliculass
 - usar ciclos for en una sola linea
 - cifrar el num_ticket (Por seguridad)
@@ -23,3 +26,4 @@ ya exite usuario
 no existe pelicula
 no exite sala
 no existe ticket
+coloca un str en envez de un int y viceversa
