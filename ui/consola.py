@@ -73,7 +73,7 @@ class Consola:
                 print(" * INFO: SE AUTENTIFICO EL ADMON CORRECTAMENTE")
                 return
             else:
-                print("CONTRASEÑA INCORRECTA")
+                print(" * INFO: CONTRASEÑA INCORRECTA")
         else: 
             print(f" * INFO: EL USUARIO {usuario_admon} NO CORRESPONDE AL DEL ADMINISTRADOR")
             self.cine.autenticacion = False
