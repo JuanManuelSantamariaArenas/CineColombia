@@ -1,4 +1,4 @@
-from colorama import Back, Fore, init
-init()
-print(Back.RED+ Fore.BLACK + "Recursos Python")
-print("ASDJAdskkadskd")
+import datetime
+
+hoy =  datetime.date.today()
+print(hoy.month)

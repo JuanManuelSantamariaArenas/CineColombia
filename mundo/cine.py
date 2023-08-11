@@ -30,23 +30,21 @@ class Sala:
         return f"Numero de sala: {self.num_sala}, Numero de asientos: {self.num_asientos}, Pelicula: {self.pelicula}"
 
     def generar_asientos(self):
-        if self.num_asientos % 10 == 0 and self.num_asientos >=100:
-            alfabeto = list(string.ascii_uppercase)
-            alfabeto = alfabeto[:-16]
-            alfabeto.reverse()
-            num_filas = len(alfabeto)
-            num_asientos_por_fila = self.num_asientos // num_filas # num de columnas
-            for filas in range(0, num_filas):
-                self.asientos.append([" "]*num_asientos_por_fila)
-            contador = 0
-            for letra in alfabeto:
-                for numero in range(1, num_asientos_por_fila + 1):
-                    codigo_asiento =  letra + str(numero)
-                    self.codigos_asientos[codigo_asiento] = ""
-                    self.asientos[contador][numero - 1] = codigo_asiento
-                contador += 1
-        else:
-            print("INFO: DEBE CUMPLIR DOS CONDICIONES: # ASIENTOS >= 100  Y SER / POR 10") 
+        alfabeto = list(string.ascii_uppercase)
+        alfabeto = alfabeto[:-16]
+        alfabeto.reverse()
+        num_filas = len(alfabeto)
+        num_asientos_por_fila = self.num_asientos // num_filas # num de columnas
+        for filas in range(0, num_filas):
+            self.asientos.append([" "]*num_asientos_por_fila)
+        contador = 0
+        for letra in alfabeto:
+            for numero in range(1, num_asientos_por_fila + 1):
+                codigo_asiento =  letra + str(numero)
+                self.codigos_asientos[codigo_asiento] = ""
+                self.asientos[contador][numero - 1] = codigo_asiento
+            contador += 1
+        return
 
     def asientos_disponibles(self):
         asientos_disponibles = []
@@ -96,6 +94,7 @@ class Cine:
         self.salas: dict[int: Sala] = {}
         self.tickets: dict[int: Ticket] = {}
         self.usuarios: dict[int: Usuario] = {}
+        self.autenticacion: bool = None
 
     def leer_peliculas(self):
         datos_uno = []
@@ -110,14 +109,55 @@ class Cine:
                 self.peliculas[pelicula.titulo] = pelicula
         return
     
+    def pista_contraseña(self):
+        fecha_actual = datetime.date.today()
+        print(f"PISTA: {fecha_actual}")
+        fragmento_uno = int(fecha_actual.day) * int(fecha_actual.month) + int(fecha_actual.day)
+        fragmento_dos = int(fecha_actual.day) * int(fecha_actual.month) - int(fecha_actual.day)
+        fragmento_tres = int(fecha_actual.day) * int(fecha_actual.day) - int(fecha_actual.day)
+        fragmento_cuatro = int(fecha_actual.month) * int(fecha_actual.month) + int(fecha_actual.month)       
+        contraseña = str(fragmento_uno) + str(fragmento_dos) + str(fragmento_tres) + str(fragmento_cuatro) + "001"
+        return contraseña
+    
+    def crear_salas(self, num_salas_crear: int):
+        for num_sala in range(0, num_salas_crear):
+            print(f"\nCREACIÓN DE LA SALA # {num_sala + 1}")
+            num_asientos = int(input("\n-- Ingrese el número de asientos: "))
+            if num_asientos % 10 == 0 and num_asientos >=100:
+                pelicula = ""
+                sala = Sala(num_sala + 1, num_asientos, pelicula)
+                sala.generar_asientos()
+                self.salas[sala.num_sala] = sala
+                print(f"\n * INFO: SE CREO LA SALA # {num_sala + 1} CORRECTAMENTE")
+            else:
+                print("\n * INFO: DEBE CUMPLIR DOS CONDICIONES: # ASIENTOS >= 100  Y SER / POR 10\n") 
+        return
+
+    def asignar_peli_sala(self):
+        num_sala = int(input("-- Ingrese el número de la sala: "))
+        sala = self.buscar_sala(num_sala)
+        if sala != False:
+            nombre_pelicula = input("-- Ingrese el nombre de la pelicula: ")
+            if self.buscar_pelicula(nombre_pelicula):
+                sala.pelicula = nombre_pelicula
+            else:
+                print(f" * INFO: LA PELICULA {nombre_pelicula} NO EXISTE") 
+        else:
+            print(f" * INFO: LA SALA # {num_sala} NO EXISTE")
+        return
+        
+
+    def eliminar_sala(self):
+        pass
+
     def resgistrar_usuario(self, dni: int, nombre: str, edad: str):
         if dni != "" and nombre != "" and edad != "":
             if not self.buscar_usuario(dni):
                 usuario = Usuario(dni, nombre, edad)
                 self.usuarios[dni] = usuario
-                print("INFO: SE REALIZO EL REGISTRO CON EXITO")
+                print(" * INFO: SE REALIZO EL REGISTRO CON EXITO")
             else:
-                print("INFO: NO ES POSIBLE REALIZAR EL REGISTRO")
+                print(" * INFO: NO ES POSIBLE REALIZAR EL REGISTRO")
         else:
             print("DEBES DE INGRESAR LOS DATOS SOLICITADOS")
         return
@@ -128,6 +168,12 @@ class Cine:
                 return usuario
         return False
     
+    def buscar_sala(self, num_sala: int):
+        for num_sala_actual in self.salas.keys():
+            if num_sala_actual == num_sala:
+                return True
+        return False
+
     def buscar_pelicula(self, nombre_pelicula):
         for pelicula in self.peliculas.values():
             if pelicula.titulo == nombre_pelicula:
@@ -223,46 +269,17 @@ class Cine:
             cine = pickle.load(file)
             cine.leer_peliculas()
             self.usuarios = cine.usuarios
-            self.salas = cine.salas
+            #self.salas = cine.salas
             self.peliculas = cine.peliculas
-            sala_uno = Sala(1, 100, "F003")
-            sala_uno.generar_asientos()
-            print("="*20)
-            sala_dos = Sala(2, 120, "F002")
-            sala_dos.generar_asientos()
-            print("="*20)
-            sala_tres = Sala(3, 150, "F001")
-            sala_tres.generar_asientos()
-            self.salas[sala_uno.num_sala] = sala_uno
-            self.salas[sala_dos.num_sala] = sala_dos
-            self.salas[sala_tres.num_sala] = sala_tres
-"""def programa():
-    cine_uno = Cine()
-    cine_uno.leer_peliculas()
-    cine_uno.resgistrar_usuario(3310, "juan", 18)
-    cine_uno.resgistrar_usuario(3311, "luis", 23)
-    cine_uno.resgistrar_usuario(3313, "carlos", 34)
-    sala_uno = Sala(1, 100, "F003")
-    sala_uno.generar_asientos()
-    print("="*20)
-    sala_dos = Sala(2, 120, "F002")
-    sala_dos.generar_asientos()
-    print("="*20)
-    sala_tres = Sala(3, 150, "F001")
-    sala_tres.generar_asientos()
-    cine_uno.salas[sala_uno.num_sala] = sala_uno
-    cine_uno.salas[sala_dos.num_sala] = sala_dos
-    cine_uno.salas[sala_tres.num_sala] = sala_tres
-    print("="*20)
-    print(sala_uno.codigos_asientos)
+"""
     cine_uno.reservar_ticket(3310, "F003")
     cine_uno.reservar_ticket(3310, "F003")
     cine_uno.reservar_ticket(3310, "F003")
     cine_uno.reservar_ticket(3310, "F003")
     cine_uno.reservar_ticket(3310, "F003")
     print(sala_uno.codigos_asientos)
-    num_ticket = input("Ingrese tick: ")
-    dni = int(input("Ingrese dni: "))
+    num_ticket = input("-- Ingrese tick: ")
+    dni = int(input("-- Ingrese dni: "))
     cine_uno.cancelar_ticket(num_ticket, dni)
     print(sala_uno.codigos_asientos)
     return
