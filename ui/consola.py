@@ -1,5 +1,3 @@
-import random
-import datetime
 import sys
 from mundo.cine import Cine
 from mundo.excepciones import *
@@ -100,6 +98,7 @@ class Consola:
             print(" * INFO: DEBES AUTENTICARTE COMO ADMINISTRADOR")
 
     def eliminar_sala(self):
+        print("\n- ELIMINAR SALA -\n")
         if self.cine.autenticacion:
             self.cine.eliminar_sala()
         else:

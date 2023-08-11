@@ -128,7 +128,7 @@ class Cine:
                 sala = Sala(num_sala + 1, num_asientos, pelicula)
                 sala.generar_asientos()
                 self.salas[sala.num_sala] = sala
-                print(f"\n * INFO: SE CREO LA SALA # {num_sala + 1} CORRECTAMENTE")
+                print(f"\n * INFO: SE CREO LA SALA # {num_sala + 1} EXITOSAMENTE")
             else:
                 print("\n * INFO: DEBE CUMPLIR DOS CONDICIONES: # ASIENTOS >= 100  Y SER / POR 10\n") 
         return
@@ -138,8 +138,10 @@ class Cine:
         sala = self.buscar_sala(num_sala)
         if sala != False:
             nombre_pelicula = input("-- Ingrese el nombre de la pelicula: ")
-            if self.buscar_pelicula(nombre_pelicula):
+            pelicula = self.buscar_pelicula(nombre_pelicula)
+            if  pelicula.titulo == nombre_pelicula:
                 sala.pelicula = nombre_pelicula
+                print(f" * INFO: SE ASIGNO LA PELICULA {nombre_pelicula} A LA SALA # {num_sala} EXITOSAMENTE")
             else:
                 print(f" * INFO: LA PELICULA {nombre_pelicula} NO EXISTE") 
         else:
@@ -148,7 +150,13 @@ class Cine:
         
 
     def eliminar_sala(self):
-        pass
+        num_sala = int(input("-- Ingrese el número de la sala: "))
+        sala = self.buscar_sala(num_sala)
+        if sala != False:
+            del self.salas[sala.num_sala]
+        else:
+            print(f" * INFO: LA SALA # {num_sala} NO EXISTE")
+        return
 
     def resgistrar_usuario(self, dni: int, nombre: str, edad: str):
         if dni != "" and nombre != "" and edad != "":
@@ -169,9 +177,9 @@ class Cine:
         return False
     
     def buscar_sala(self, num_sala: int):
-        for num_sala_actual in self.salas.keys():
-            if num_sala_actual == num_sala:
-                return True
+        for sala_actual in self.salas.values():
+            if sala_actual.num_sala == num_sala:
+                return sala_actual
         return False
 
     def buscar_pelicula(self, nombre_pelicula):
@@ -180,6 +188,7 @@ class Cine:
                 for sala in self.salas.values():
                     if sala.pelicula == nombre_pelicula:
                         return [pelicula, sala]
+                return pelicula
         return False
     
     def asignar_asiento(self, sala: Sala, usuario: Usuario):

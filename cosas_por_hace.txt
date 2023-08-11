@@ -2,8 +2,6 @@ ideas:
 
 funcion para admon:
 
-eliminar sala
-asignar un pelicula a una sala
 numero se sillas vip
 
 funcion para usuario
@@ -14,7 +12,6 @@ funcion para usuario
 - si esta el asiento ocupado al mostrar el cine que apareca en color rojo (----UI----)
 - conectar ui
 - percistencia de archivos 
-leer arcivo de peliculas al cargar el programa
 - generar excepciones:
 no hay asientos disponibles
 ya exite usuario
