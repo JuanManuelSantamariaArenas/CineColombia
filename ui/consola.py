@@ -134,9 +134,9 @@ class Consola:
         pelicula = self.cine.buscar_pelicula(nombre_pelicula)
         if pelicula != False:
             pelicula = pelicula[1]
-            print(f"La pelicula {nombre_pelicula} se encuentra disponible en la sala # {pelicula.num_sala}")
+            print(f" * INFO: LA PELICULA {nombre_pelicula} SE ENCUENTRA DISPONIBLE EN LA SALA # {pelicula.num_sala}")
         else: 
-            print(f"La pelicula {nombre_pelicula} no se encuentra disponible")
+            print(f" * INFO: LA PELICULA {nombre_pelicula} NO SE ENCUENTRA DISPONIBLE")
 
     def reservar_ticket(self):
         print("\n- RESERVAR TICKET -\n")
@@ -151,6 +151,6 @@ class Consola:
         self.cine.cancelar_ticket(num_ticket, dni)
 
     def salir_app(self):
-        print("\nMUCHAS GRACIAS POR USAR LA APLICACIÓN")
+        print("\nMUCHAS GRACIAS POR USAR LA APLICACIÓN 👏🏻👍👏🏻")
         self.cine.guardar()
         sys.exit(0)

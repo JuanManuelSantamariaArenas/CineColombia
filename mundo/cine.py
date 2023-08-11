@@ -163,7 +163,7 @@ class Cine:
             if not self.buscar_usuario(dni):
                 usuario = Usuario(dni, nombre, edad)
                 self.usuarios[dni] = usuario
-                print(" * INFO: SE REALIZO EL REGISTRO CON EXITO")
+                print(" * INFO: SE REALIZO EL REGISTRO EXITOSAMENTE")
             else:
                 print(" * INFO: NO ES POSIBLE REALIZAR EL REGISTRO")
         else:
@@ -253,6 +253,7 @@ class Cine:
         datos_ticket = [num_ticket, fecha, sala.num_sala, asiento, dni, pelicula]
         usuario.adquirir_ticket(datos_ticket)
         self.deshabilitar_asiento(sala, asiento, dni)
+        print(f"\n * INFO: SE RESERVO EL TICKET {num_ticket} EXITOSAMENTE")
         return
     
     def cancelar_ticket(self, num_ticket: str, dni: int):
@@ -267,6 +268,7 @@ class Cine:
                 sala = sala_usuario
         self.habilitar_asiento(sala, datos_ticket[0][0])
         del datos_ticket[0][1]
+        print(f"\n * INFO: SE CANCELO EL TICKET {num_ticket} EXITOSAMENTE")
         return
 
     def guardar(self):
@@ -281,11 +283,6 @@ class Cine:
             #self.salas = cine.salas
             self.peliculas = cine.peliculas
 """
-    cine_uno.reservar_ticket(3310, "F003")
-    cine_uno.reservar_ticket(3310, "F003")
-    cine_uno.reservar_ticket(3310, "F003")
-    cine_uno.reservar_ticket(3310, "F003")
-    cine_uno.reservar_ticket(3310, "F003")
     print(sala_uno.codigos_asientos)
     num_ticket = input("-- Ingrese tick: ")
     dni = int(input("-- Ingrese dni: "))

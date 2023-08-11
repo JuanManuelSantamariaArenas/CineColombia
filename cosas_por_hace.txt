@@ -6,6 +6,7 @@ numero se sillas vip
 
 funcion para usuario
 
+- guardar el objeto cine
 - poner como atrinuto de la clase pelicula hora
 - crear peliculass
 - usar ciclos for en una sola linea
