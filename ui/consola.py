@@ -131,10 +131,11 @@ class Consola:
     def buscar_pelicula(self):
         print("\n- BUSCAR PELICULA -\n")
         nombre_pelicula = input("-- Ingrese el nombre de la pelicula: ")
-        pelicula = self.cine.buscar_pelicula(nombre_pelicula)
-        if pelicula != False:
-            pelicula = pelicula[1]
-            print(f" * INFO: LA PELICULA {nombre_pelicula} SE ENCUENTRA DISPONIBLE EN LA SALA # {pelicula.num_sala}")
+        datos = self.cine.buscar_pelicula(nombre_pelicula)
+        if datos != False:
+            pelicula = datos[0]
+            sala = datos[1]
+            print(f" * INFO: LA PELICULA {nombre_pelicula} SE ENCUENTRA DISPONIBLE EN LA SALA # {sala.num_sala} Y INICIA A LAS {pelicula.hora_transmision}")
         else: 
             print(f" * INFO: LA PELICULA {nombre_pelicula} NO SE ENCUENTRA DISPONIBLE")
 

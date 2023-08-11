@@ -1,3 +1,3 @@
-F001, Fantasy, Fem, Britney, Spears, Floral, Frutal
-F002, Midnigth, Fantasy, Fem, Britney Spears, Floral, Frutal
-F003, Hola, Li, Ka, JU, ASAS, SDSD
+F001, Fantasy, Fem, Britney, Spears, Floral, Frutal, 18:00:00
+F002, Midnigth, Fantasy, Fem, Britney Spears, Floral, Frutal, 11:30:00
+F003, Hola, Li, Ka, JU, ASAS, SDSD, 23:00:00

@@ -5,7 +5,7 @@ import pickle
 
 class Pelicula:
 
-    def __init__(self, titulo: str, genero: str, productora: str, publicacion: int, duracion: float, retriccion_edad: str, calificacion: int):
+    def __init__(self, titulo: str, genero: str, productora: str, publicacion: int, duracion: float, retriccion_edad: str, calificacion: int, hora_transmision: datetime):
         self.titulo = titulo
         self.genero = genero
         self.productora = productora
@@ -13,9 +13,10 @@ class Pelicula:
         self.duracion = duracion
         self.retriccion_edad = retriccion_edad  
         self.calificacion = calificacion
+        self.hora_transmision = hora_transmision
     
     def __str__(self) -> str:
-        return f"Titulo: {self.titulo} \n Genero: {self.genero} \n Productora: {self.productora} \n Publicacion: {self.publicacion} \n Duracion: {self.duracion} \n Restriccion de edad: {self.retriccion_edad} \n Calificacion: {self.calificacion}"
+        return f"Titulo: {self.titulo} \n Genero: {self.genero} \n Productora: {self.productora} \n Publicacion: {self.publicacion} \n Duracion: {self.duracion} \n Restriccion de edad: {self.retriccion_edad} \n Calificacion: {self.calificacion} \n Hora de transmisión: {self.hora_transmision}"
 
 class Sala:
 
@@ -105,7 +106,7 @@ class Cine:
             for lineas in datos_uno:
                 datos_finales.append(lineas.split(","))
             for datos in datos_finales:
-                pelicula = Pelicula(datos[0], datos[1], datos[2], datos[3], datos[4], datos[5], datos[6])
+                pelicula = Pelicula(datos[0], datos[1], datos[2], datos[3], datos[4], datos[5], datos[6], datos[7])
                 self.peliculas[pelicula.titulo] = pelicula
         return
     

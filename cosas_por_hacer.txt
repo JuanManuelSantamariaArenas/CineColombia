@@ -2,13 +2,14 @@ ideas:
 
 funcion para admon:
 
-numero se sillas vip
+- guardar el objeto cine
+- poner como atrinuto de la clase pelicula hora
+- numero se sillas vip
+- releer las peliculas
 
 funcion para usuario
 
-- guardar el objeto cine
-- poner como atrinuto de la clase pelicula hora
-- crear peliculass
+- crear peliculas
 - usar ciclos for en una sola linea
 - si esta el asiento ocupado al mostrar el cine que apareca en color rojo (----UI----)
 - conectar ui
