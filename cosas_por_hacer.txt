@@ -2,10 +2,7 @@ ideas:
 
 funcion para admon:
 
-- guardar el objeto cine
-- poner como atrinuto de la clase pelicula hora
 - numero se sillas vip
-- releer las peliculas
 
 funcion para usuario
 

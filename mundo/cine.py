@@ -106,8 +106,13 @@ class Cine:
             for lineas in datos_uno:
                 datos_finales.append(lineas.split(","))
             for datos in datos_finales:
-                pelicula = Pelicula(datos[0], datos[1], datos[2], datos[3], datos[4], datos[5], datos[6], datos[7])
-                self.peliculas[pelicula.titulo] = pelicula
+                existe_pelicula = self.buscar_pelicula(datos[0])
+                if not isinstance(existe_pelicula, list):
+                    if existe_pelicula == False:
+                        pelicula = Pelicula(datos[0], datos[1], datos[2], datos[3], datos[4], datos[5], datos[6], datos[7])
+                        self.peliculas[pelicula.titulo] = pelicula
+                    elif existe_pelicula.hora_transmision != datos[7]:
+                        existe_pelicula.hora_transmision = datos[7]
         return
     
     def pista_contraseña(self):
@@ -140,11 +145,15 @@ class Cine:
         if sala != False:
             nombre_pelicula = input("-- Ingrese el nombre de la pelicula: ")
             pelicula = self.buscar_pelicula(nombre_pelicula)
-            if  pelicula.titulo == nombre_pelicula:
-                sala.pelicula = nombre_pelicula
-                print(f" * INFO: SE ASIGNO LA PELICULA {nombre_pelicula} A LA SALA # {num_sala} EXITOSAMENTE")
+            if not isinstance(pelicula, list):
+                if  pelicula.titulo == nombre_pelicula:
+                    sala.pelicula = nombre_pelicula
+                    print(f" * INFO: SE ASIGNO LA PELICULA {nombre_pelicula} A LA SALA # {num_sala} EXITOSAMENTE")
+                else:
+                    print(f" * INFO: LA PELICULA {nombre_pelicula} NO EXISTE")
             else:
-                print(f" * INFO: LA PELICULA {nombre_pelicula} NO EXISTE") 
+                pelicula = pelicula[0]
+                print(f" * INFO: LA PELICULA {pelicula.titulo} FUE ASIGNADA A OTRA SALA")
         else:
             print(f" * INFO: LA SALA # {num_sala} NO EXISTE")
         return
@@ -158,6 +167,12 @@ class Cine:
         else:
             print(f" * INFO: LA SALA # {num_sala} NO EXISTE")
         return
+    
+    def actualizar_peliculas(self):
+        self.leer_peliculas()
+        print(" * INFO: SE ACTUALIZARON LAS PELICULAS EXITOSAMENTE")
+        return
+
 
     def resgistrar_usuario(self, dni: int, nombre: str, edad: str):
         if dni != "" and nombre != "" and edad != "":

@@ -1,4 +1,7 @@
-import datetime
+foo = []
+bar = "Hola"
 
-hora = datetime.datetime.now().time()
-print(hora)
+a = isinstance(foo, list)
+print(a)
+b = isinstance(bar, list)
+print(b)

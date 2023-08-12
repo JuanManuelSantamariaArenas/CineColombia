@@ -12,14 +12,16 @@ class Consola:
             "2": self.crear_salas,
             "3": self.asignar_peli_sala,
             "4": self.eliminar_sala,
-            "5": self.salir_menu_admon,
+            "5": self.actualizar_peliculas,
+            "6": self.salir_menu_admon,
         }
         self.opciones_usuario = {
             "1": self.registrar_usuario,
             "2": self.buscar_pelicula,
             "3": self.reservar_ticket,
             "4": self.cancelar_ticket,
-            "5": self.salir_app,
+            "5": self.actualizar_peliculas,
+            "6": self.salir_app,
         }
 
     def mostrar_menu_admon(self):
@@ -32,7 +34,8 @@ class Consola:
         2. Crear salas
         3. Asignar pelicula a una sala
         4. Eliminar sala
-        5. Salir del menu del administrador
+        5. Actualizar peliculas
+        6. Salir del menu del administrador
         
         NOTA: ANTES QUE TODO DEBES AUTENTICARTE COMO ADMON
         |||||||||||||||||||||||||||||||||||
@@ -48,7 +51,8 @@ class Consola:
         2. Buscar pelicula
         3. Reservar ticket
         4. Cancelar ticket
-        5. Salir de la aplicacion
+        5. Actualizar peliculas
+        6. Salir de la aplicacion
         |||||||||||||||||||||||||||||||||||
         """)
 
@@ -110,6 +114,9 @@ class Consola:
             self.ejecutar_usuario()
         else:
             print(" * INFO: PRIMERO DEBES CREAR LAS SALAS DEL CINE")
+
+    def actualizar_peliculas(self):
+        self.cine.actualizar_peliculas()
 
     def ejecutar_usuario(self):
         while True:
