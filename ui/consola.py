@@ -84,12 +84,20 @@ class Consola:
             return
     
     def crear_salas(self):
-        print("\n- CREAR SALAS -\n") 
-        if self.cine.autenticacion:
-            num_salas_crear = int(input("-- Ingrese el número de salas que desea crear: "))
-            self.cine.crear_salas(num_salas_crear)
-        else:
-            print(" * INFO: DEBES AUTENTICARTE COMO ADMINISTRADOR")
+        try:
+            print("\n- CREAR SALAS -\n")
+            if self.cine.autenticacion:
+                num_salas_crear = int(input("-- Ingrese el número de salas que desea crear: "))
+                if num_salas_crear > 0:
+                    self.cine.crear_salas(num_salas_crear)
+                else: 
+                    print(" INFO: EL NUMERO DE SALAS A CREAR DEBE SER MAYOR A CERO (0)")
+            else:
+                print(" * INFO: DEBES AUTENTICARTE COMO ADMINISTRADOR")
+        except DatosSinIngresarError:
+            print(" * INFO: DEBES INGRESAR LOS DATOS SOLICITADOS")
+        except ValueError:
+            print(" * INFO: SE INGRESO LETRAS EN LUGAR DE NUMEROS")
 
     def asignar_peli_sala(self):
         print("\n- ASIGNACION DE PELICULA A UNA SALA -\n") 
@@ -129,34 +137,52 @@ class Consola:
                 print(f" * INFO: {opcion} NO ES UNA OPCIÓN VALIDA")
     
     def registrar_usuario(self):
-        print("\n- REGISTRAR USUARIO -\n")
-        dni = int(input("-- Ingrese el número de identificación: "))
-        nombre = input("-- Ingrese el nombre completo: ")
-        edad = int(input("-- Ingrese la edad: "))
-        self.cine.resgistrar_usuario(dni, nombre, edad)
-    
+        try:
+            print("\n- REGISTRAR USUARIO -\n")
+            dni = int(input("-- Ingrese el número de identificación: "))
+            nombre = input("-- Ingrese el nombre completo: ")
+            edad = int(input("-- Ingrese la edad: "))
+            self.cine.resgistrar_usuario(dni, nombre, edad)
+        except DatosSinIngresarError:
+            print(" * INFO: DEBES INGRESAR LOS DATOS SOLICITADOS")
+        except ValueError:
+            print(" * INFO: SE INGRESO LETRAS EN LUGAR DE NUMEROS")
+
     def buscar_pelicula(self):
-        print("\n- BUSCAR PELICULA -\n")
-        nombre_pelicula = input("-- Ingrese el nombre de la pelicula: ")
-        datos = self.cine.buscar_pelicula(nombre_pelicula)
-        if datos != False:
-            pelicula = datos[0]
-            sala = datos[1]
-            print(f" * INFO: LA PELICULA {nombre_pelicula} SE ENCUENTRA DISPONIBLE EN LA SALA # {sala.num_sala} Y INICIA A LAS {pelicula.hora_transmision}")
-        else: 
-            print(f" * INFO: LA PELICULA {nombre_pelicula} NO SE ENCUENTRA DISPONIBLE")
+        try: 
+            print("\n- BUSCAR PELICULA -\n")
+            nombre_pelicula = input("-- Ingrese el nombre de la pelicula: ")
+            datos = self.cine.buscar_pelicula(nombre_pelicula)
+            if datos != False:
+                pelicula = datos[0]
+                sala = datos[1]
+                print(f" * INFO: LA PELICULA {nombre_pelicula} SE ENCUENTRA DISPONIBLE EN LA SALA # {sala.num_sala} Y INICIA A LAS {pelicula.hora_transmision}")
+            else: 
+                print(f" * INFO: LA PELICULA {nombre_pelicula} NO SE ENCUENTRA DISPONIBLE")
+        except DatosSinIngresarError:
+            print(" * INFO: DEBES INGRESAR LOS DATOS SOLICITADOS")
 
     def reservar_ticket(self):
-        print("\n- RESERVAR TICKET -\n")
-        dni = int(input("-- Ingrese el número de identificación: "))
-        nombre_pelicula = input("-- Ingrese el nombre de la pelicula: ")
-        self.cine.reservar_ticket(dni, nombre_pelicula)
+        try:
+            print("\n- RESERVAR TICKET -\n")
+            dni = int(input("-- Ingrese el número de identificación: "))
+            nombre_pelicula = input("-- Ingrese el nombre de la pelicula: ")
+            self.cine.reservar_ticket(dni, nombre_pelicula)
+        except DatosSinIngresarError:
+            print(" * INFO: DEBES INGRESAR LOS DATOS SOLICITADOS")
+        except ValueError:
+            print(" * INFO: SE INGRESO LETRAS EN LUGAR DE NUMEROS")
 
     def cancelar_ticket(self):
-        print("\n- CANCELAR TICKET -\n")
-        num_ticket = input("-- Ingrese el número del ticket: ")
-        dni = int(input("-- Ingrese el número de identificación: "))
-        self.cine.cancelar_ticket(num_ticket, dni)
+        try:
+            print("\n- CANCELAR TICKET -\n")
+            num_ticket = input("-- Ingrese el número del ticket: ")
+            dni = int(input("-- Ingrese el número de identificación: "))
+            self.cine.cancelar_ticket(num_ticket, dni)
+        except DatosSinIngresarError:
+            print(" * INFO: DEBES INGRESAR LOS DATOS SOLICITADOS")
+        except ValueError:
+            print(" * INFO: SE INGRESO LETRAS EN LUGAR DE NUMEROS")
 
     def salir_app(self):
         print("\nMUCHAS GRACIAS POR USAR LA APLICACIÓN 👏🏻👍👏🏻")

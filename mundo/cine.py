@@ -126,6 +126,7 @@ class Cine:
         return contraseña
     
     def crear_salas(self, num_salas_crear: int):
+        print("\n EL NUMERO DE ASIENTOS DEBE CUMPLIR DOS CONDICIONES: # ASIENTOS >= 100  Y SER / POR 10")
         for num_sala in range(0, num_salas_crear):
             print(f"\nCREACIÓN DE LA SALA # {num_sala + 1}")
             num_asientos = int(input("\n-- Ingrese el número de asientos: "))
@@ -277,14 +278,17 @@ class Cine:
         tickets = usuario.tickets
         log_dni = str(usuario.dni)
         log_dni = len(log_dni)
-        datos_ticket = [[cod_ticket[:-log_dni], ticket] for cod_ticket, ticket in tickets.items() if cod_ticket == num_ticket]
-        sala = datos_ticket[0][1].num_sala
-        for sala_usuario in self.salas.values():
-            if sala_usuario.num_sala == sala:
-                sala = sala_usuario
-        self.habilitar_asiento(sala, datos_ticket[0][0])
-        del datos_ticket[0][1]
-        print(f"\n * INFO: SE CANCELO EL TICKET {num_ticket} EXITOSAMENTE")
+        if len(tickets) > 0:
+            datos_ticket = [[cod_ticket[:-log_dni], ticket] for cod_ticket, ticket in tickets.items() if cod_ticket == num_ticket]
+            sala = datos_ticket[0][1].num_sala
+            for sala_usuario in self.salas.values():
+                if sala_usuario.num_sala == sala:
+                    sala = sala_usuario
+            self.habilitar_asiento(sala, datos_ticket[0][0])
+            del datos_ticket[0][1]
+            print(f"\n * INFO: SE CANCELO EL TICKET {num_ticket} EXITOSAMENTE")
+        else:
+            print(f"\n * INFO: EL TICKET {num_ticket} NO SE HA ENCONTRADO")
         return
 
     def guardar(self):
@@ -298,11 +302,3 @@ class Cine:
             self.usuarios = cine.usuarios
             #self.salas = cine.salas
             self.peliculas = cine.peliculas
-"""
-    print(sala_uno.codigos_asientos)
-    num_ticket = input("-- Ingrese tick: ")
-    dni = int(input("-- Ingrese dni: "))
-    cine_uno.cancelar_ticket(num_ticket, dni)
-    print(sala_uno.codigos_asientos)
-    return
-programa()"""

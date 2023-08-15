@@ -10,11 +10,9 @@ funcion para usuario
 - usar ciclos for en una sola linea
 - si esta el asiento ocupado al mostrar el cine que apareca en color rojo (----UI----)
 - conectar ui
-- percistencia de archivos 
+- percistencia de archivos
 - generar excepciones:
 no hay asientos disponibles
-ya exite usuario
-no existe pelicula
-no exite sala
 no existe ticket
-coloca un str en envez de un int y viceversa
+coloca un str en envez de un int y viceversa : ValueError
+ingresar # asientos no divisible por 10
