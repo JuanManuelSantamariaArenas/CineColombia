@@ -122,7 +122,7 @@ class Cine:
         return contraseña
     
     def crear_salas(self, num_salas_crear: int):
-        print("\n EL NUMERO DE ASIENTOS DEBE CUMPLIR DOS CONDICIONES: # ASIENTOS >= 100  Y SER / POR 10")
+        print("\n * INFO: EL NUMERO DE ASIENTOS DEBE CUMPLIR DOS CONDICIONES: # 100 <= ASIENTOS <= 1000  Y SER / POR 10")
         cant_salas_act = [salas for salas in self.salas.keys()]
         if len(cant_salas_act) == 0:
             cant_salas_act = 0
@@ -132,7 +132,7 @@ class Cine:
             num_sala = cant_salas_act + 1
             print(f"\nCREACIÓN DE LA SALA # {num_sala}")
             num_asientos = int(input("\n-- Ingrese el número de asientos: "))
-            if num_asientos % 10 == 0 and num_asientos >=100:
+            if num_asientos % 10 == 0 and 100 <= num_asientos <= 500:
                 pelicula = ""
                 sala = Sala(num_sala, num_asientos, pelicula)
                 sala.generar_asientos()
@@ -140,7 +140,7 @@ class Cine:
                 cant_salas_act += 1
                 print(f"\n * INFO: SE CREO LA SALA # {num_sala} EXITOSAMENTE")
             else:
-                print("\n * INFO: DEBE CUMPLIR DOS CONDICIONES: # ASIENTOS >= 100  Y SER / POR 10\n")
+                print("\n * INFO: DEBE CUMPLIR DOS CONDICIONES: # 100 <= ASIENTOS <= 1000  Y SER / POR 10\n")
                 return
         return
 
@@ -287,7 +287,7 @@ class Cine:
         tickets = usuario.tickets
         log_dni = str(usuario.dni)
         log_dni = len(log_dni)
-        if len(tickets) > 0:
+        if len(tickets) > 0 and num_ticket != "":
             datos_ticket = [[cod_ticket[:-log_dni], ticket] for cod_ticket, ticket in tickets.items() if cod_ticket == num_ticket]
             sala = datos_ticket[0][1].num_sala
             for sala_usuario in self.salas.values():

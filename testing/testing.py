@@ -1,2 +1,5 @@
-foo = [1, 2, 3, 4]
-print(foo[-1])
+num = int(input("Ingrese #: "))
+if 100 <= num <= 1000:
+    print("EX")
+else:
+    print("ERRO")

@@ -194,6 +194,6 @@ class Consola:
             print(" * INFO: SE INGRESO CARACTERES NO CORRESPONDIENTES A NUMEROS")
 
     def salir_app(self):
-        print("\nMUCHAS GRACIAS POR USAR LA APLICACIÓN 👏🏻👍👏🏻")
+        print("\nMUCHAS GRACIAS POR USAR LA APLICACIÓN 👍👍👍")
         self.cine.guardar()
         sys.exit(0)
