@@ -98,13 +98,9 @@ class Cine:
         self.autenticacion: bool = None
 
     def leer_peliculas(self):
-        datos_uno = []
-        datos_finales = []
         with open("peliculas.txt") as file:
-            for lineas in file:
-                datos_uno.append(lineas.strip("\n"))
-            for lineas in datos_uno:
-                datos_finales.append(lineas.split(","))
+            datos_uno = [lineas.strip("\n") for lineas in file]
+            datos_finales = [lineas.split(",") for lineas in datos_uno]
             for datos in datos_finales:
                 existe_pelicula = self.buscar_pelicula(datos[0])
                 if not isinstance(existe_pelicula, list):
@@ -127,17 +123,25 @@ class Cine:
     
     def crear_salas(self, num_salas_crear: int):
         print("\n EL NUMERO DE ASIENTOS DEBE CUMPLIR DOS CONDICIONES: # ASIENTOS >= 100  Y SER / POR 10")
+        cant_salas_act = [salas for salas in self.salas.keys()]
+        if len(cant_salas_act) == 0:
+            cant_salas_act = 0
+        else:
+            cant_salas_act = cant_salas_act[-1]
         for num_sala in range(0, num_salas_crear):
-            print(f"\nCREACIÓN DE LA SALA # {num_sala + 1}")
+            num_sala = cant_salas_act + 1
+            print(f"\nCREACIÓN DE LA SALA # {num_sala}")
             num_asientos = int(input("\n-- Ingrese el número de asientos: "))
             if num_asientos % 10 == 0 and num_asientos >=100:
                 pelicula = ""
-                sala = Sala(num_sala + 1, num_asientos, pelicula)
+                sala = Sala(num_sala, num_asientos, pelicula)
                 sala.generar_asientos()
                 self.salas[sala.num_sala] = sala
-                print(f"\n * INFO: SE CREO LA SALA # {num_sala + 1} EXITOSAMENTE")
+                cant_salas_act += 1
+                print(f"\n * INFO: SE CREO LA SALA # {num_sala} EXITOSAMENTE")
             else:
-                print("\n * INFO: DEBE CUMPLIR DOS CONDICIONES: # ASIENTOS >= 100  Y SER / POR 10\n") 
+                print("\n * INFO: DEBE CUMPLIR DOS CONDICIONES: # ASIENTOS >= 100  Y SER / POR 10\n")
+                return
         return
 
     def asignar_peli_sala(self):
@@ -147,31 +151,31 @@ class Cine:
             nombre_pelicula = input("-- Ingrese el nombre de la pelicula: ")
             pelicula = self.buscar_pelicula(nombre_pelicula)
             if not isinstance(pelicula, list):
-                if  pelicula.titulo == nombre_pelicula:
+                if  pelicula != False:
                     sala.pelicula = nombre_pelicula
-                    print(f" * INFO: SE ASIGNO LA PELICULA {nombre_pelicula} A LA SALA # {num_sala} EXITOSAMENTE")
+                    print(f"\n * INFO: SE ASIGNO LA PELICULA {nombre_pelicula} A LA SALA # {num_sala} EXITOSAMENTE")
                 else:
-                    print(f" * INFO: LA PELICULA {nombre_pelicula} NO EXISTE")
+                    print(f"\n * INFO: LA PELICULA {nombre_pelicula} NO EXISTE")
             else:
                 pelicula = pelicula[0]
-                print(f" * INFO: LA PELICULA {pelicula.titulo} FUE ASIGNADA A OTRA SALA")
+                print(f"\n * INFO: LA PELICULA {pelicula.titulo} FUE ASIGNADA A OTRA SALA")
         else:
-            print(f" * INFO: LA SALA # {num_sala} NO EXISTE")
+            print(f"\n * INFO: LA SALA # {num_sala} NO EXISTE")
         return
         
-
     def eliminar_sala(self):
         num_sala = int(input("-- Ingrese el número de la sala: "))
         sala = self.buscar_sala(num_sala)
         if sala != False:
             del self.salas[sala.num_sala]
+            print(f"\n * INFO: SE ELIMINO LA SALA # {num_sala}")
         else:
-            print(f" * INFO: LA SALA # {num_sala} NO EXISTE")
+            print(f"\n* INFO: LA SALA # {num_sala} NO EXISTE")
         return
     
     def actualizar_peliculas(self):
         self.leer_peliculas()
-        print(" * INFO: SE ACTUALIZARON LAS PELICULAS EXITOSAMENTE")
+        print("\n * INFO: SE ACTUALIZARON LAS PELICULAS EXITOSAMENTE")
         return
 
 
@@ -263,14 +267,19 @@ class Cine:
         usuario = self.buscar_usuario(dni)
         fecha = datetime.date.today()
         sala = self.buscar_pelicula(pelicula)
-        sala = sala[1]
-        asiento = self.asignar_asiento(sala, usuario)
-        num_ticket = asiento + str(dni)
-        print(num_ticket)
-        datos_ticket = [num_ticket, fecha, sala.num_sala, asiento, dni, pelicula]
-        usuario.adquirir_ticket(datos_ticket)
-        self.deshabilitar_asiento(sala, asiento, dni)
-        print(f"\n * INFO: SE RESERVO EL TICKET {num_ticket} EXITOSAMENTE")
+        if sala != False and isinstance(sala, list) and usuario != False:
+            sala = sala[1]
+            asiento = self.asignar_asiento(sala, usuario)
+            num_ticket = asiento + str(dni)
+            print(num_ticket)
+            datos_ticket = [num_ticket, fecha, sala.num_sala, asiento, dni, pelicula]
+            usuario.adquirir_ticket(datos_ticket)
+            self.deshabilitar_asiento(sala, asiento, dni)
+            print(f"\n * INFO: SE RESERVO EL TICKET {num_ticket} EXITOSAMENTE")
+        elif usuario == False:
+            print(f"\n * INFO: EL DNI {dni} NO SE ENCUENTRA REGISTRADO")
+        else:
+            print(f"\n * INFO: LA PELICULA {pelicula} NO EXISTE O NO HA SIDO ASIGNADA A UNA SALA")
         return
     
     def cancelar_ticket(self, num_ticket: str, dni: int):

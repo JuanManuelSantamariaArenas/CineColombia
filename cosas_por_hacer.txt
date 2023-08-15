@@ -2,7 +2,11 @@ ideas:
 
 funcion para admon:
 
+- hacer testeo al programa (CANCELAR TICKET)
+- realizar excepciones
 - numero se sillas vip
+- se elimino una sala anteriormente si deseas la puedes ocupar
+- poner un maximo de asientos
 
 funcion para usuario
 

@@ -64,7 +64,7 @@ class Consola:
             if accion is not None:
                 accion()
             else:
-                print(f" * INFO: {opcion} NO ES UNA OPCIÓN VALIDA")
+                print(f"\n * INFO: {opcion} NO ES UNA OPCIÓN VALIDA")
 
     def autentificar_admon(self):
         print("\n- AUTENTICAR ADMINISTRADOR -\n")
@@ -74,12 +74,12 @@ class Consola:
             contraseña = input("Contraseña: ")
             if contraseña == contraseña_admon:
                 self.cine.autenticacion = True
-                print(" * INFO: SE AUTENTIFICO EL ADMON CORRECTAMENTE")
+                print("\n * INFO: SE AUTENTIFICO EL ADMON CORRECTAMENTE")
                 return
             else:
-                print(" * INFO: CONTRASEÑA INCORRECTA")
+                print("\n * INFO: CONTRASEÑA INCORRECTA")
         else: 
-            print(f" * INFO: EL USUARIO {usuario_admon} NO CORRESPONDE AL DEL ADMINISTRADOR")
+            print(f"\n * INFO: EL USUARIO {usuario_admon} NO CORRESPONDE AL DEL ADMINISTRADOR")
             self.cine.autenticacion = False
             return
     
@@ -91,30 +91,36 @@ class Consola:
                 if num_salas_crear > 0:
                     self.cine.crear_salas(num_salas_crear)
                 else: 
-                    print(" INFO: EL NUMERO DE SALAS A CREAR DEBE SER MAYOR A CERO (0)")
+                    print("\n * INFO: EL NUMERO DE SALAS A CREAR DEBE SER MAYOR A CERO (0)")
             else:
-                print(" * INFO: DEBES AUTENTICARTE COMO ADMINISTRADOR")
+                print("\n * INFO: DEBES AUTENTICARTE COMO ADMINISTRADOR")
         except DatosSinIngresarError:
-            print(" * INFO: DEBES INGRESAR LOS DATOS SOLICITADOS")
+            print("\n * INFO: DEBES INGRESAR LOS DATOS SOLICITADOS")
         except ValueError:
-            print(" * INFO: SE INGRESO LETRAS EN LUGAR DE NUMEROS")
+            print("\n * INFO: SE INGRESO CARACTERES NO CORRESPONDIENTES A NUMEROS")
 
     def asignar_peli_sala(self):
-        print("\n- ASIGNACION DE PELICULA A UNA SALA -\n") 
-        if self.cine.autenticacion:
-            if len(self.cine.salas) > 0:
-                self.cine.asignar_peli_sala()
+        try:
+            print("\n- ASIGNACION DE PELICULA A UNA SALA -\n") 
+            if self.cine.autenticacion:
+                if len(self.cine.salas) > 0:
+                    self.cine.asignar_peli_sala()
+                else:
+                    print(" * INFO: PRIMERO DEBES CREAR LAS SALAS DEL CINE")
             else:
-                print(" * INFO: PRIMERO DEBES CREAR LAS SALAS DEL CINE")
-        else:
-            print(" * INFO: DEBES AUTENTICARTE COMO ADMINISTRADOR")
+                print(" * INFO: DEBES AUTENTICARTE COMO ADMINISTRADOR")
+        except ValueError:
+            print(" * INFO: SE INGRESO CARACTERES NO CORRESPONDIENTES A NUMEROS")
 
     def eliminar_sala(self):
-        print("\n- ELIMINAR SALA -\n")
-        if self.cine.autenticacion:
-            self.cine.eliminar_sala()
-        else:
-            print(" * INFO: DEBES AUTENTICARTE COMO ADMINISTRADOR") 
+        try:
+            print("\n- ELIMINAR SALA -\n")
+            if self.cine.autenticacion:
+                self.cine.eliminar_sala()
+            else:
+                print(" * INFO: DEBES AUTENTICARTE COMO ADMINISTRADOR")
+        except ValueError:
+            print("\n * INFO: SE INGRESO CARACTERES NO CORRESPONDIENTES A NUMEROS")
     
     def salir_menu_admon(self):
         if len(self.cine.salas) > 0:
@@ -124,7 +130,10 @@ class Consola:
             print(" * INFO: PRIMERO DEBES CREAR LAS SALAS DEL CINE")
 
     def actualizar_peliculas(self):
-        self.cine.actualizar_peliculas()
+        if self.cine.autenticacion:
+            self.cine.actualizar_peliculas()
+        else:
+            print("\n * INFO: DEBES AUTENTICARTE COMO ADMINISTRADOR")
 
     def ejecutar_usuario(self):
         while True:
@@ -146,19 +155,19 @@ class Consola:
         except DatosSinIngresarError:
             print(" * INFO: DEBES INGRESAR LOS DATOS SOLICITADOS")
         except ValueError:
-            print(" * INFO: SE INGRESO LETRAS EN LUGAR DE NUMEROS")
+            print("\n * INFO: SE INGRESO CARACTERES NO CORRESPONDIENTES A NUMEROS")
 
     def buscar_pelicula(self):
         try: 
             print("\n- BUSCAR PELICULA -\n")
             nombre_pelicula = input("-- Ingrese el nombre de la pelicula: ")
             datos = self.cine.buscar_pelicula(nombre_pelicula)
-            if datos != False:
+            if datos != False and isinstance(datos, list):
                 pelicula = datos[0]
                 sala = datos[1]
                 print(f" * INFO: LA PELICULA {nombre_pelicula} SE ENCUENTRA DISPONIBLE EN LA SALA # {sala.num_sala} Y INICIA A LAS {pelicula.hora_transmision}")
             else: 
-                print(f" * INFO: LA PELICULA {nombre_pelicula} NO SE ENCUENTRA DISPONIBLE")
+                print(f"\n * INFO: LA PELICULA {nombre_pelicula} NO SE ENCUENTRA DISPONIBLE")
         except DatosSinIngresarError:
             print(" * INFO: DEBES INGRESAR LOS DATOS SOLICITADOS")
 
@@ -171,7 +180,7 @@ class Consola:
         except DatosSinIngresarError:
             print(" * INFO: DEBES INGRESAR LOS DATOS SOLICITADOS")
         except ValueError:
-            print(" * INFO: SE INGRESO LETRAS EN LUGAR DE NUMEROS")
+            print(" * INFO: SE INGRESO CARACTERES NO CORRESPONDIENTES A NUMEROS")
 
     def cancelar_ticket(self):
         try:
@@ -182,7 +191,7 @@ class Consola:
         except DatosSinIngresarError:
             print(" * INFO: DEBES INGRESAR LOS DATOS SOLICITADOS")
         except ValueError:
-            print(" * INFO: SE INGRESO LETRAS EN LUGAR DE NUMEROS")
+            print(" * INFO: SE INGRESO CARACTERES NO CORRESPONDIENTES A NUMEROS")
 
     def salir_app(self):
         print("\nMUCHAS GRACIAS POR USAR LA APLICACIÓN 👏🏻👍👏🏻")

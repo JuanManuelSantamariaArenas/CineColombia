@@ -1,7 +1,2 @@
-foo = []
-bar = "Hola"
-
-a = isinstance(foo, list)
-print(a)
-b = isinstance(bar, list)
-print(b)
+foo = [1, 2, 3, 4]
+print(foo[-1])
