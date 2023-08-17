@@ -87,11 +87,15 @@ class Consola:
         try:
             print("\n- CREAR SALAS -\n")
             if self.cine.autenticacion:
-                num_salas_crear = int(input("-- Ingrese el número de salas que desea crear: "))
-                if num_salas_crear > 0:
-                    self.cine.crear_salas(num_salas_crear)
-                else: 
-                    print("\n * INFO: EL NUMERO DE SALAS A CREAR DEBE SER MAYOR A CERO (0)")
+                recrear = self.cine.recrear_sala_eliminada()
+                if recrear == False:                    
+                    num_salas_crear = int(input("-- Ingrese el número de salas que desea crear: "))
+                    if num_salas_crear > 0:
+                        self.cine.crear_salas(num_salas_crear, False)
+                    else: 
+                        print("\n * INFO: EL NUMERO DE SALAS A CREAR DEBE SER MAYOR A CERO (0)")
+                else:
+                    return
             else:
                 print("\n * INFO: DEBES AUTENTICARTE COMO ADMINISTRADOR")
         except DatosSinIngresarError:

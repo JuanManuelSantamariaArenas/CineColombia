@@ -93,6 +93,7 @@ class Cine:
     def __init__(self):
         self.peliculas: dict[str: Pelicula] = {}
         self.salas: dict[int: Sala] = {}
+        self.salas_eliminadas: list[int] = []
         self.tickets: dict[int: Ticket] = {}
         self.usuarios: dict[int: Usuario] = {}
         self.autenticacion: bool = None
@@ -119,9 +120,10 @@ class Cine:
         fragmento_tres = int(fecha_actual.day) * int(fecha_actual.day) - int(fecha_actual.day)
         fragmento_cuatro = int(fecha_actual.month) * int(fecha_actual.month) + int(fecha_actual.month)       
         contraseña = str(fragmento_uno) + str(fragmento_dos) + str(fragmento_tres) + str(fragmento_cuatro) + "001"
+        print(contraseña)
         return contraseña
     
-    def crear_salas(self, num_salas_crear: int):
+    def crear_salas(self, num_salas_crear: int, recrear_sala):
         print("\n * INFO: EL NUMERO DE ASIENTOS DEBE CUMPLIR DOS CONDICIONES: # 100 <= ASIENTOS <= 1000  Y SER / POR 10")
         cant_salas_act = [salas for salas in self.salas.keys()]
         if len(cant_salas_act) == 0:
@@ -129,7 +131,10 @@ class Cine:
         else:
             cant_salas_act = cant_salas_act[-1]
         for num_sala in range(0, num_salas_crear):
-            num_sala = cant_salas_act + 1
+            if recrear_sala != False:
+                num_sala = recrear_sala
+            elif recrear_sala == False:
+                num_sala = cant_salas_act + 1
             print(f"\nCREACIÓN DE LA SALA # {num_sala}")
             num_asientos = int(input("\n-- Ingrese el número de asientos: "))
             if num_asientos % 10 == 0 and 100 <= num_asientos <= 500:
@@ -143,6 +148,25 @@ class Cine:
                 print("\n * INFO: DEBE CUMPLIR DOS CONDICIONES: # 100 <= ASIENTOS <= 1000  Y SER / POR 10\n")
                 return
         return
+    
+    def recrear_sala_eliminada(self):
+        if len(self.salas_eliminadas) > 0:
+            print(f" HAS ELIMINADO {len(self.salas_eliminadas)} SALA(S) ANTERIORMENTE\n")
+            recrear = int(input("Desea recrear alguna sala (1. Sí - 2. No): "))
+            if recrear == 1:
+                num_sala_recrear =  self.salas_eliminadas[0]
+                self.crear_salas(1, num_sala_recrear)
+                self.salas_eliminadas.remove(num_sala_recrear)
+                return True
+            elif recrear == 2:
+                print(" * INFO: NO SE RECREO NINGUNA SALA\n")
+                print("CONTINUEMOS CON LA CREACIÓN HABITUAL\n")
+                return False
+            else:
+                print(f" * INFO: LA OPCION {recrear} NO ES VALIDA\n")
+                return None
+        else:
+            return False
 
     def asignar_peli_sala(self):
         num_sala = int(input("-- Ingrese el número de la sala: "))
@@ -167,6 +191,7 @@ class Cine:
         num_sala = int(input("-- Ingrese el número de la sala: "))
         sala = self.buscar_sala(num_sala)
         if sala != False:
+            self.salas_eliminadas.append(sala.num_sala)
             del self.salas[sala.num_sala]
             print(f"\n * INFO: SE ELIMINO LA SALA # {num_sala}")
         else:
