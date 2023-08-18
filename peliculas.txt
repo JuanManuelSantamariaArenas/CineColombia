@@ -1,3 +1,10 @@
-F001, Fantasy, Fem, Britney, Spears, Floral, Frutal, 18:00:00
-F002, Midnigth, Fantasy, Fem, Britney Spears, Floral, Frutal, 11:30:00
-F003, Hola, Li, Ka, JU, ASAS, SDSD, 23:00:00
+The Matrix, Sci-fi, Warner Bros Pictures, 1999, 136, PG, 83, 17:00:00
+Barbie, Comedy, Warner Bros Pictures, 2023, 114, R, 83, 16:30:00
+Meg 2: The thench, Sci-fi, Warner Bros Pictures, 2023, 116, PG, 72, 13:00:00
+Indiana Jones And The Dial Of Destiny, Adventure, Walt Disney Pictures, 2023, 144, PG, 88, 14:00:00
+Spider-Man: Across The Spider-Verse, Action, Sony Pictures, 2023, 140, PG, 94, 09:30:00
+Oppenheimer, Dramam, Universal Pictures, 2023, 180, R, 91, 12:00:00
+Gran Turismo: Based On A True Story, Action, Columbia Pictures, 2023, 135, PG, 98, 18:30:00
+Elemental, Comedy, Disney/Pixar, 2023, 103, PG, 93, 13:00:00
+The Super Mario Bros Movie, Comedy, Universal Pictures, 2023, 92, PG, 95, 14:30:00
+The First Slam Dunk, Comedy, GKIDS, 2022, 124, PG, 98, 22:00:00

@@ -5,7 +5,7 @@ import pickle
 
 class Pelicula:
 
-    def __init__(self, titulo: str, genero: str, productora: str, publicacion: int, duracion: float, retriccion_edad: str, calificacion: int, hora_transmision: datetime):
+    def __init__(self, titulo: str, genero: str, productora: str, publicacion: int, duracion: int, retriccion_edad: str, calificacion: int, hora_transmision: datetime):
         self.titulo = titulo
         self.genero = genero
         self.productora = productora

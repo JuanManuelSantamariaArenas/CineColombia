@@ -5,11 +5,11 @@ funcion para admon:
 - hacer testeo al programa 
 - realizar excepciones
 - numero se sillas vip
-- se elimino una sala anteriormente si deseas la puedes ocupar
 
 funcion para usuario
 
 - crear peliculas
+- buscar peliculas por partes y cercania
 - si esta el asiento ocupado al mostrar el cine que apareca en color rojo (----UI----)
 - conectar ui
 - percistencia de archivos
