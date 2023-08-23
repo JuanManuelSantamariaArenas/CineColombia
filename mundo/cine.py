@@ -2,6 +2,8 @@ import random
 import datetime
 import string
 import pickle
+from nltk.tokenize import word_tokenize
+import numpy as np
 
 class Pelicula:
 
@@ -236,6 +238,50 @@ class Cine:
                         return [pelicula, sala]
                 return pelicula
         return False
+
+    def similitud_texto(self, pelicula):
+        peliculas_similares = []
+        peliculas = [peli_act.titulo for peli_act in self.peliculas.values()]
+        for pelis_act in peliculas:
+            cant_pal_simi = 0
+            for pala_uno, pala_dos in zip(pelis_act, pelicula):
+                if pala_uno == pala_dos:
+                    cant_pal_simi += 1
+            if cant_pal_simi > 3:
+                peliculas_similares.append(pelis_act)
+        aux_simili_texto = self.auxiliar_similitud_texto(pelicula, peliculas)
+        peliculas_similares_unida = peliculas_similares.union(aux_simili_texto)
+        if len(peliculas_similares_unida) > 0:
+            print(" \n LA PELICULA QUE SE ESTA BUSCANDO PUEDE SER SIMILAR A:\n")
+            for peli in peliculas_similares_unida:
+                print(f" -- {peli}")
+        return
+    
+    def auxiliar_similitud_texto(self, pelicula, peliculas_cine):
+        pelis_simila = []
+        for peli in peliculas_cine:
+            peli_uno_separada = word_tokenize(peli)
+            peli_dos_separada = word_tokenize(pelicula)
+            peli_uno_set = set(peli_uno_separada)
+            peli_dos_set = set(peli_dos_separada)
+            union_set = peli_uno_set.union(peli_dos_set)
+            peli_uno_contiene = []
+            peli_dos_contiene = []
+            for palabra in union_set:
+                if palabra in peli_uno_separada:
+                    peli_uno_contiene.append(1)
+                else:
+                    peli_uno_contiene.append(0)
+                if palabra in peli_dos_separada:
+                    peli_dos_contiene.append(1)
+                else:
+                    peli_dos_contiene.append(0)
+            x_peli = np.array(peli_uno_contiene)
+            y_peli = np.array(peli_dos_contiene)
+            porcen_similitud = (x_peli @ y_peli) / (np.linalg.norm (x_peli)) * (np.linalg.norm (y_peli))
+            if porcen_similitud > 0.0:
+                pelis_simila.append(peli)
+        return pelis_simila
     
     def asignar_asiento(self, sala: Sala, usuario: Usuario):
         asientos_disponibles = sala.asientos_disponibles()

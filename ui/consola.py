@@ -67,21 +67,24 @@ class Consola:
                 print(f"\n * INFO: {opcion} NO ES UNA OPCIÓN VALIDA")
 
     def autentificar_admon(self):
-        print("\n- AUTENTICAR ADMINISTRADOR -\n")
-        usuario_admon = input("Usuario: ")
-        if usuario_admon == "artlee":
-            contraseña_admon = self.cine.pista_contraseña()
-            contraseña = input("Contraseña: ")
-            if contraseña == contraseña_admon:
-                self.cine.autenticacion = True
-                print("\n * INFO: SE AUTENTIFICO EL ADMON CORRECTAMENTE")
+        if self.cine.autenticacion != True:
+            print("\n- AUTENTICAR ADMINISTRADOR -\n")
+            usuario_admon = input("Usuario: ")
+            if usuario_admon == "artlee":
+                contraseña_admon = self.cine.pista_contraseña()
+                contraseña = input("Contraseña: ")
+                if contraseña == contraseña_admon:
+                    self.cine.autenticacion = True
+                    print("\n * INFO: SE AUTENTIFICO EL ADMON CORRECTAMENTE")
+                    return
+                else:
+                    print("\n * INFO: CONTRASEÑA INCORRECTA")
+            else: 
+                print(f"\n * INFO: EL USUARIO {usuario_admon} NO CORRESPONDE AL DEL ADMINISTRADOR")
+                self.cine.autenticacion = False
                 return
-            else:
-                print("\n * INFO: CONTRASEÑA INCORRECTA")
         else: 
-            print(f"\n * INFO: EL USUARIO {usuario_admon} NO CORRESPONDE AL DEL ADMINISTRADOR")
-            self.cine.autenticacion = False
-            return
+            print("\n * INFO: YA TE AUTENTICATE ANTES, NO ES NECESARIO REALIZARLO DE NUEVO")
     
     def crear_salas(self):
         try:
@@ -172,6 +175,7 @@ class Consola:
                 print(f" * INFO: LA PELICULA {nombre_pelicula} SE ENCUENTRA DISPONIBLE EN LA SALA # {sala.num_sala} Y INICIA A LAS {pelicula.hora_transmision}")
             else: 
                 print(f"\n * INFO: LA PELICULA {nombre_pelicula} NO SE ENCUENTRA DISPONIBLE")
+                self.cine.similitud_texto(nombre_pelicula)
         except DatosSinIngresarError:
             print(" * INFO: DEBES INGRESAR LOS DATOS SOLICITADOS")
 
