@@ -250,7 +250,9 @@ class Cine:
             if cant_pal_simi > 3:
                 peliculas_similares.append(pelis_act)
         aux_simili_texto = self.auxiliar_similitud_texto(pelicula, peliculas)
-        peliculas_similares_unida = peliculas_similares.union(aux_simili_texto)
+        peliculas_similares_unida = peliculas_similares + aux_simili_texto
+        peliculas_similares_unida = set(peliculas_similares_unida)
+        peliculas_similares_unida = list(peliculas_similares_unida)
         if len(peliculas_similares_unida) > 0:
             print(" \n LA PELICULA QUE SE ESTA BUSCANDO PUEDE SER SIMILAR A:\n")
             for peli in peliculas_similares_unida:
